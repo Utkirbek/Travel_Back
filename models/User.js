@@ -2,41 +2,79 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
     },
-    image: {
+    secondName: {
       type: String,
-      required: false,
+      required: true,
     },
+    nationality: {
+      type: String,
+      required: true,
+    },
+    passportNumber: {
+      type: String,
+      required: true
+    },
+    dateOfBirth: {
+      type: String, 
+      required: true
+    },
+    sex: {
+      type: String,
+      required: true,
+      enum:['M', "F"]
+    },
+    countryOfBirth: {
+      type: String, 
+      required: true,
+    },
+    passportExpireDate: {
+      type: String, 
+      required: true
+    },
+    customerOwner: {
+      type: String, 
+      required: true
+    }, 
+    paid: {
+      type: Number,
+      required: false
+    },
+    left: {
+      type: Number,
+      required: false
+    },
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     address: {
       type: String,
       required: false,
-    },
-    country: {
-      type: String,
-      required: false,
-    },
-    city: {
-      type: String,
-      required: false,
-    },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
     },
     phone: {
       type: String,
       required: false,
     },
-    password: {
-      type: String,
-      required: false,
-    },
+
   },
   {
     timestamps: true,
