@@ -10,14 +10,12 @@ const branchSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-
-
   },
   {
     timestamps: true,
   }
 );
 
-const Coupon = mongoose.models.Coupon || mongoose.model('Coupon', branchSchema);
+const Coupon =
+  mongoose.models.Coupon || mongoose.model('Coupon', branchSchema);
 module.exports = Coupon;
