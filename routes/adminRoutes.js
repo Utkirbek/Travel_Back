@@ -3,27 +3,19 @@ const router = express.Router();
 const {
   registerAdmin,
   loginAdmin,
-  forgetPassword,
-  resetPassword,
   addStaff,
   getAllStaff,
   getStaffById,
   updateStaff,
   deleteStaff,
 } = require('../controller/adminController');
-const { passwordVerificationLimit } = require('../config/others');
+
 
 //register a staff
 router.post('/register', registerAdmin);
 
 //login a admin
 router.post('/login', loginAdmin);
-
-//forget-password
-router.put('/forget-password', passwordVerificationLimit, forgetPassword);
-
-//reset-password
-router.put('/reset-password', resetPassword);
 
 //add a staff
 router.post('/add', addStaff);

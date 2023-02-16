@@ -15,15 +15,21 @@ const registerAdmin = async (req, res) => {
       });
     } else {
       const newStaff = new Admin({
+        branch: req.body.branch,
+        image: req.body.image,
         name: req.body.name,
         email: req.body.email,
         role: req.body.role,
+        phone: req.body.phone,
         password: bcrypt.hashSync(req.body.password),
       });
       const staff = await newStaff.save();
       const token = signInToken(staff);
       res.send({
         token,
+        branch: staff.branch,
+        image: staff.image,
+        phone: staff.phone,
         _id: staff._id,
         name: staff.name,
         email: staff.email,
@@ -63,60 +69,8 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-const forgetPassword = async (req, res) => {
-  const isAdded = await Admin.findOne({ email: req.body.verifyEmail });
-  if (!isAdded) {
-    return res.status(404).send({
-      message: 'Admin/Staff Not found with this email!',
-    });
-  } else {
-    const token = tokenForVerify(isAdded);
-    const body = {
-      from: process.env.EMAIL_USER,
-      to: `${req.body.verifyEmail}`,
-      subject: 'Password Reset',
-      html: `<h2>Hello ${req.body.verifyEmail}</h2>
-      <p>A request has been received to change the password for your <strong>Dashtar</strong> account </p>
 
-        <p>This link will expire in <strong> 15 minute</strong>.</p>
 
-        <p style="margin-bottom:20px;">Click this link for reset your password</p>
-
-        <a href=${process.env.ADMIN_URL}/reset-password/${token}  style="background:#22c55e;color:white;border:1px solid #22c55e; padding: 10px 15px; border-radius: 4px; text-decoration:none;">Reset Password </a>
-
-        
-        <p style="margin-top: 35px;">If you did not initiate this request, please contact us immediately at support@dashtar.com</p>
-
-        <p style="margin-bottom:0px;">Thank you</p>
-        <strong>Dashtar Team</strong>
-             `,
-    };
-    const message = 'Please check your email to reset password!';
-    sendEmail(body, res, message);
-  }
-};
-
-const resetPassword = async (req, res) => {
-  const token = req.body.token;
-  const { email } = jwt.decode(token);
-  const staff = await Admin.findOne({ email: email });
-
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY, (err, decoded) => {
-      if (err) {
-        return res.status(500).send({
-          message: 'Token expired, please try again!',
-        });
-      } else {
-        staff.password = bcrypt.hashSync(req.body.newPassword);
-        staff.save();
-        res.send({
-          message: 'Your password change successful, you can login now!',
-        });
-      }
-    });
-  }
-};
 
 const addStaff = async (req, res) => {
   try {
@@ -175,7 +129,6 @@ const updateStaff = async (req, res) => {
       admin.email = req.body.data.email;
       admin.phone = req.body.data.phone;
       admin.role = req.body.data.role;
-      admin.joiningData = dayjs().utc().format(req.body.data.joiningDate);
       admin.password = req.body.data.password
         ? bcrypt.hashSync(req.body.data.password)
         : admin.password;
@@ -214,8 +167,6 @@ const deleteStaff = (req, res) => {
 module.exports = {
   registerAdmin,
   loginAdmin,
-  forgetPassword,
-  resetPassword,
   addStaff,
   getAllStaff,
   getStaffById,

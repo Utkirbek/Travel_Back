@@ -7,23 +7,15 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Branch',
+      required: true,
+    },
     image: {
       type: String,
       required: false,
     },
-    address: {
-      type: String,
-      required: false,
-    },
-    country: {
-      type: String,
-      required: false,
-    },
-    city: {
-      type: String,
-      required: false,
-    },
-
     email: {
       type: String,
       required: true,
@@ -36,17 +28,13 @@ const adminSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: false,
-      default: bcrypt.hashSync('12345678'),
+      required: true,
     },
     role: {
       type: String,
-      required: false,
+      required: true,
     },
-    joiningData: {
-      type: Date,
-      required: false,
-    },
+
   },
   {
     timestamps: true,
