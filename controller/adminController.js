@@ -3,7 +3,11 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
 const jwt = require('jsonwebtoken');
-const { signInToken, tokenForVerify, sendEmail } = require('../config/auth');
+const {
+  signInToken,
+  tokenForVerify,
+  sendEmail,
+} = require('../config/auth');
 const Admin = require('../models/Admin');
 
 const registerAdmin = async (req, res) => {
@@ -47,7 +51,10 @@ const registerAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
   try {
     const admin = await Admin.findOne({ email: req.body.email });
-    if (admin && bcrypt.compareSync(req.body.password, admin.password)) {
+    if (
+      admin &&
+      bcrypt.compareSync(req.body.password, admin.password)
+    ) {
       const token = signInToken(admin);
       res.send({
         token,
@@ -69,25 +76,22 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-
-
-
 const addStaff = async (req, res) => {
   try {
-    const isAdded = await Admin.find({ email: req.body.data.email });
+    const isAdded = await Admin.find({ email: req.body.email });
     if (isAdded) {
       return res.status(500).send({
         message: 'This Email already Added!',
       });
     } else {
       const newStaff = new Admin({
-        name: req.body.data.name,
-        email: req.body.data.email,
-        password: bcrypt.hashSync(req.body.data.password),
-        phone: req.body.data.phone,
-        joiningDate: req.body.data.joiningDate,
-        role: req.body.data.role,
-        image: req.body.data.image,
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password),
+        phone: req.body.phone,
+        joiningDate: req.body.joiningDate,
+        role: req.body.role,
+        image: req.body.image,
       });
       await newStaff.save();
       res.status(200).send({
