@@ -1,6 +1,5 @@
 const Branch = require('../models/Branch');
 
-
 const addBranch = async (req, res) => {
   try {
     const newBranch = new Branch(req.body);
@@ -10,8 +9,6 @@ const addBranch = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
-
 
 const getAllBranchs = async (req, res) => {
   try {
@@ -40,8 +37,8 @@ const updateBranch = async (req, res) => {
     const Branch = await Branch.findById(req.params.id);
     if (Branch) {
       Branch.title = req.body.title;
-      Branch.address = req.body.address;  
-     
+      Branch.address = req.body.address;
+
       await Branch.save();
       res.send({ message: 'Branch Updated Successfully!' });
     }

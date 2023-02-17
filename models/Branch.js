@@ -8,16 +8,24 @@ const branchSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true,
+      required: false,
     },
-
-
-
+    location: {
+      lat: {
+        type: Number,
+        required: true,
+      },
+      lng: {
+        type: Number,
+        required: true,
+      },
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Coupon = mongoose.models.Coupon || mongoose.model('Coupon', branchSchema);
-module.exports = Coupon;
+const Branch =
+  mongoose.models.Branch || mongoose.model('Branch', branchSchema);
+module.exports = Branch;
