@@ -5,6 +5,7 @@ dayjs.extend(utc);
 const jwt = require('jsonwebtoken');
 const { signInToken, tokenForVerify, sendEmail } = require('../config/auth');
 const Admin = require('../models/Admin');
+const Branch = require('../models/Branch');
 
 const registerAdmin = async (req, res) => {
   try {
@@ -23,11 +24,12 @@ const registerAdmin = async (req, res) => {
         phone: req.body.phone,
         password: bcrypt.hashSync(req.body.password),
       });
+      const branch = await Branch.findById(req.body.branch)
       const staff = await newStaff.save();
       const token = signInToken(staff);
       res.send({
         token,
-        branch: staff.branch,
+        branch: branch,
         image: staff.image,
         phone: staff.phone,
         _id: staff._id,
@@ -47,6 +49,7 @@ const registerAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
   try {
     const admin = await Admin.findOne({ email: req.body.email });
+    const branch = await Branch.findById(admin.branch)
     if (admin && bcrypt.compareSync(req.body.password, admin.password)) {
       const token = signInToken(admin);
       res.send({
@@ -57,7 +60,7 @@ const loginAdmin = async (req, res) => {
         email: admin.email,
         image: admin.image,
         role: admin.role,
-        branch: admin.branch,
+        branch: branch,
       });
     } else {
       res.status(401).send({
@@ -76,20 +79,22 @@ const loginAdmin = async (req, res) => {
 
 const addStaff = async (req, res) => {
   try {
-    const isAdded = await Admin.find({ email: req.body.data.email });
+    const isAdded = await Admin.find({ email: req.body.email });
+    const branch = await Branch.findById(req.body.branch)
     if (isAdded) {
       return res.status(500).send({
         message: 'This Email already Added!',
       });
     } else {
       const newStaff = new Admin({
-        name: req.body.data.name,
-        email: req.body.data.email,
-        password: bcrypt.hashSync(req.body.data.password),
-        phone: req.body.data.phone,
-        joiningDate: req.body.data.joiningDate,
-        role: req.body.data.role,
-        image: req.body.data.image,
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password),
+        phone: req.body.phone,
+        joiningDate: req.body.joiningDate,
+        role: req.body.role,
+        branch: req.body.branch,
+        image: req.body.image,
       });
       await newStaff.save();
       res.status(200).send({
@@ -105,7 +110,7 @@ const addStaff = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
-    const admins = await Admin.find({}).sort({ _id: -1 });
+    const admins = await Admin.find({}).sort({ _id: -1 }).populate('branch');
     res.send(admins);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -114,7 +119,7 @@ const getAllStaff = async (req, res) => {
 
 const getStaffById = async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id);
+    const admin = await Admin.findById(req.params.id).populate('branch');
     res.send(admin);
   } catch (err) {
     res.status(500).send({
@@ -127,14 +132,15 @@ const updateStaff = async (req, res) => {
   try {
     const admin = await Admin.findById(req.params.id);
     if (admin) {
-      admin.name = req.body.data.name;
-      admin.email = req.body.data.email;
-      admin.phone = req.body.data.phone;
-      admin.role = req.body.data.role;
-      admin.password = req.body.data.password
-        ? bcrypt.hashSync(req.body.data.password)
+      admin.name = req.body.name;
+      admin.email = req.body.email;
+      admin.phone = req.body.phone;
+      admin.role = req.body.role;
+      admin.password = req.body.password;
+      admin.branch= req.body.branch ? bcrypt.hashSync(req.body.password)
         : admin.password;
-      admin.image = req.body.data.image;
+      admin.image = req.body.image;
+      const branch = await Branch.findById(req.body.branch);
       const updatedAdmin = await admin.save();
       const token = signInToken(updatedAdmin);
       res.send({
@@ -144,6 +150,7 @@ const updateStaff = async (req, res) => {
         email: updatedAdmin.email,
         role: updatedAdmin.role,
         image: updatedAdmin.image,
+        branch: branch,
         joiningData: updatedAdmin.joiningData,
       });
     }
