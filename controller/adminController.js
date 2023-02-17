@@ -28,7 +28,7 @@ const registerAdmin = async (req, res) => {
         phone: req.body.phone,
         password: bcrypt.hashSync(req.body.password),
       });
-      const branch = await Branch.findById(req.body.branch)
+      const branch = await Branch.findById(req.body.branch);
       const staff = await newStaff.save();
       const token = signInToken(staff);
       res.send({
@@ -58,6 +58,7 @@ const loginAdmin = async (req, res) => {
       bcrypt.compareSync(req.body.password, admin.password)
     ) {
       const token = signInToken(admin);
+      const branch = await Branch.findById(admin.branch);
       res.send({
         token,
         _id: admin._id,
@@ -66,7 +67,7 @@ const loginAdmin = async (req, res) => {
         email: admin.email,
         image: admin.image,
         role: admin.role,
-       
+        branch: branch,
       });
     } else {
       res.status(401).send({
@@ -83,10 +84,6 @@ const loginAdmin = async (req, res) => {
 const addStaff = async (req, res) => {
   try {
     const isAdded = await Admin.find({ email: req.body.email });
-<<<<<<< HEAD
-=======
-    const branch = await Branch.findById(req.body.branch)
->>>>>>> c675ae4311ab78fe123734bade6faa71ccef4a51
     if (isAdded) {
       return res.status(500).send({
         message: 'This Email already Added!',
@@ -99,10 +96,7 @@ const addStaff = async (req, res) => {
         phone: req.body.phone,
         joiningDate: req.body.joiningDate,
         role: req.body.role,
-<<<<<<< HEAD
-=======
         branch: req.body.branch,
->>>>>>> c675ae4311ab78fe123734bade6faa71ccef4a51
         image: req.body.image,
       });
       await newStaff.save();
@@ -119,7 +113,9 @@ const addStaff = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
-    const admins = await Admin.find({}).sort({ _id: -1 }).populate('branch');
+    const admins = await Admin.find({})
+      .sort({ _id: -1 })
+      .populate('branch');
     res.send(admins);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -128,7 +124,9 @@ const getAllStaff = async (req, res) => {
 
 const getStaffById = async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id).populate('branch');
+    const admin = await Admin.findById(req.params.id).populate(
+      'branch'
+    );
     res.send(admin);
   } catch (err) {
     res.status(500).send({
@@ -146,7 +144,8 @@ const updateStaff = async (req, res) => {
       admin.phone = req.body.phone;
       admin.role = req.body.role;
       admin.password = req.body.password;
-      admin.branch= req.body.branch ? bcrypt.hashSync(req.body.password)
+      admin.branch = req.body.branch
+        ? bcrypt.hashSync(req.body.password)
         : admin.password;
       admin.image = req.body.image;
       const branch = await Branch.findById(req.body.branch);
