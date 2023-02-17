@@ -57,6 +57,7 @@ const loginAdmin = async (req, res) => {
         email: admin.email,
         image: admin.image,
         role: admin.role,
+        branch: admin.branch,
       });
     } else {
       res.status(401).send({
