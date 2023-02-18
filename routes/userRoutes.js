@@ -1,54 +1,26 @@
-// const express = require('express');
-// const router = express.Router();
-// const {
-//   loginUser,
-//   registerUser,
-//   signUpWithProvider,
-//   verifyEmailAddress,
-//   forgetPassword,
-//   changePassword,
-//   resetPassword,
-//   getAllUsers,
-//   getUserById,
-//   updateUser,
-//   deleteUser,
-// } = require('../controller/userController');
-// const {
-//   passwordVerificationLimit,
-//   emailVerificationLimit,
-// } = require('../config/others');
+const express = require('express');
+const router = express.Router();
+const {
+  addUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+} = require('../controller/userController');
 
-// //verify email
-// router.post('/verify-email', emailVerificationLimit, verifyEmailAddress);
+//add a Branch
+router.post('/add', addUser);
 
-// //register a user
-// router.post('/register/:token', registerUser);
+//get all Branch
+router.get('/', getAllUsers);
 
-// //login a user
-// router.post('/login', loginUser);
+//get a Branch
+router.get('/:id', getUserById);
 
-// //register or login with google and fb
-// router.post('/signup', signUpWithProvider);
+//update a Branch
+router.put('/:id', updateUser);
 
-// //forget-password
-// router.put('/forget-password', passwordVerificationLimit, forgetPassword);
+//delete a Branch
+router.delete('/:id', deleteUser);
 
-// //reset-password
-// router.put('/reset-password', resetPassword);
-
-// //change password
-// router.post('/change-password', changePassword);
-
-// //get all user
-// router.get('/', getAllUsers);
-
-// //get a user
-// router.get('/:id', getUserById);
-
-// //update a user
-// router.put('/:id', updateUser);
-
-// //delete a user
-// router.delete('/:id', deleteUser);
-
-// module.exports = router;
+module.exports = router;

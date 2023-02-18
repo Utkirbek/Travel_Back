@@ -5,10 +5,10 @@ const helmet = require('helmet');
 
 const connectDB = require('../config/db');
 const productRoutes = require('../routes/productRoutes');
-const userRoutes = require('../routes/userRoutes');
+
 const adminRoutes = require('../routes/adminRoutes');
 const orderRoutes = require('../routes/orderRoutes');
-
+const userRoutes = require('../routes/userRoutes');
 const categoryRoutes = require('../routes/categoryRoutes');
 const branchRoutes = require('../routes/branchRoutes');
 const { isAuth, isAdmin } = require('../config/auth');
@@ -34,8 +34,7 @@ app.get('/', (req, res) => {
 app.use('/api/products/', productRoutes);
 app.use('/api/category/', categoryRoutes);
 app.use('/api/branch/', branchRoutes);
-// app.use('/api/user/', userRoutes);
-
+app.use('/api/user/', userRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use('/api/admin/', adminRoutes);
