@@ -12,7 +12,9 @@ const addUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).sort({ _id: -1 });
+    const users = await User.find({})
+      .sort({ _id: -1 })
+      .populate('branch');
     res.send(users);
   } catch (err) {
     res.status(500).send({
@@ -35,8 +37,22 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+
     if (user) {
-      user = req.body;
+      user.firstName = req.body.firstName;
+      user.secondName = req.body.secondName;
+      user.nationality = req.body.nationality;
+      user.passportNumber = req.body.passportNumber;
+      user.dateOfBirth = req.body.dateOfBirth;
+      user.sex = req.body.sex;
+      user.countryOfBirth = req.body.countryOfBirth;
+      user.passportExpireDate = req.body.passportExpireDate;
+      user.sex = req.body.sex;
+      user.paid = req.body.paid;
+      user.price = req.body.price;
+      user.address = req.body.address;
+      user.sex = req.body.sex;
+      user.phone = req.body.phone;
 
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
