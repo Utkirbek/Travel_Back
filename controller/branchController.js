@@ -19,8 +19,6 @@ const getAllBranchs = async (req, res) => {
         Branchs[i].admins[j] = await Admin.findById(Branchs[i].admins[j]);
       }
     }
-
-    
     res.send(Branchs);
   } catch (err) {
     res.status(500).send({

@@ -1,5 +1,15 @@
 const User = require('../models/User');
 
+const addUser = async (req, res) => {
+    try {
+        const newUser = new User(req.body);
+        await newUser.save();
+        res.send({ message: 'User Added Successfully!' });
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
 const getAllUsers = async (req, res) => {
     try {
         const users = await User.find({}).sort({ _id: -1 });
@@ -38,3 +48,21 @@ const updateUser = async (req, res) => {
         res.status(404).send({ message: 'User not found!' });
     }
 }
+
+const deleteUser = (req, res) => {
+    User.deleteOne({ _id: req.params.id }, (err) => {
+        if (err) {
+            res.status(500).send({ message: err.message });
+        } else {
+            res.send({ message: 'User deleted successfully!' });
+        }
+    });
+};
+
+module.exports = {
+    addUser,
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser,
+};
