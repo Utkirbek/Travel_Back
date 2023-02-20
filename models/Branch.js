@@ -14,6 +14,12 @@ const branchSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Admin',
+      required: false,
+    },
+
     admins: [
       {
         type: mongoose.Schema.Types.ObjectId,

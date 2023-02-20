@@ -46,6 +46,7 @@ const updateBranch = async (req, res) => {
       Branch.address = req.body.address;
       Branch.phone = req.body.phone;
       Branch.admins = req.body.admins;
+      Branch.manager = req.body.manager;
 
       await Branch.save();
       res.send({ message: 'Branch Updated Successfully!' });
