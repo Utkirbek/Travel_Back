@@ -57,7 +57,6 @@ const loginAdmin = async (req, res) => {
       bcrypt.compareSync(req.body.password, admin.password)
     ) {
       const token = signInToken(admin);
-      const branch = await Branch.findById(admin.branch);
       res.send({
         token,
         _id: admin._id,
@@ -112,7 +111,6 @@ const getAllStaff = async (req, res) => {
   try {
     const admins = await Admin.find({})
       .sort({ _id: -1 })
-      .populate('branch');
     res.send(admins);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -121,9 +119,7 @@ const getAllStaff = async (req, res) => {
 
 const getStaffById = async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id).populate(
-      'branch'
-    );
+    const admin = await Admin.findById(req.params.id);
     res.send(admin);
   } catch (err) {
     res.status(500).send({
@@ -140,8 +136,7 @@ const updateStaff = async (req, res) => {
       admin.email = req.body.email;
       admin.phone = req.body.phone;
       admin.role = req.body.role;
-      admin.password = req.body.password;
-      admin.branch = req.body.branch
+      admin.password = req.body.password
         ? bcrypt.hashSync(req.body.password)
         : admin.password;
       admin.image = req.body.image;
