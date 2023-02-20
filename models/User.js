@@ -16,36 +16,41 @@ const userSchema = new mongoose.Schema(
     },
     passportNumber: {
       type: String,
-      required: true
+      required: true,
     },
     dateOfBirth: {
-      type: String, 
-      required: true
+      type: String,
+      required: true,
     },
     sex: {
       type: String,
       required: true,
-      enum:['M', "F"]
+      enum: ['M', 'F'],
     },
     countryOfBirth: {
-      type: String, 
+      type: String,
       required: true,
     },
     passportExpireDate: {
-      type: String, 
-      required: true
+      type: String,
+      required: true,
     },
-    customerOwner: {
-      type: String, 
-      required: true
-    }, 
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Branch',
+      required: true,
+    },
     paid: {
       type: Number,
-      required: false
+      required: false,
     },
     left: {
       type: Number,
-      required: false
+      required: false,
+    },
+    price: {
+      type: Number,
+      required: true,
     },
     address: {
       type: String,
@@ -61,6 +66,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User =
+  mongoose.models.User || mongoose.model('User', userSchema);
 
 module.exports = User;
