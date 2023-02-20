@@ -21,7 +21,7 @@ router.post('/login', loginAdmin);
 router.post('/add', addStaff);
 
 //get all staff
-router.post('/', getAllStaff);
+router.get('/', getAllStaff);
 
 //get a staff
 router.post('/:id', getStaffById);

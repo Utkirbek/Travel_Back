@@ -7,11 +7,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    branch: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Branch',
-      required: true,
-    },
+
     image: {
       type: String,
       required: false,

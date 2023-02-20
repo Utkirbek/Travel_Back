@@ -1,4 +1,5 @@
 const Branch = require('../models/Branch');
+const Admin = require('../models/Admin');
 
 const addBranch = async (req, res) => {
   try {
@@ -13,6 +14,13 @@ const addBranch = async (req, res) => {
 const getAllBranchs = async (req, res) => {
   try {
     const Branchs = await Branch.find({}).sort({ _id: -1 });
+    for (let i = 0; i < Branchs.length; i++) {
+      for (let j = 0; j < Branchs[i].admins.length; j++) {
+        Branchs[i].admins[j] = await Admin.findById(Branchs[i].admins[j]);
+      }
+    }
+
+    
     res.send(Branchs);
   } catch (err) {
     res.status(500).send({
@@ -38,6 +46,8 @@ const updateBranch = async (req, res) => {
     if (Branch) {
       Branch.title = req.body.title;
       Branch.address = req.body.address;
+      Branch.phone = req.body.phone;
+      Branch.admins = req.body.admins;
 
       await Branch.save();
       res.send({ message: 'Branch Updated Successfully!' });

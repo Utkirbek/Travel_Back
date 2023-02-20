@@ -8,16 +8,28 @@ const branchSchema = new mongoose.Schema(
     },
     address: {
       type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
       required: false,
     },
+    admins: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin',
+        required: false,
+      }
+    ],
+
     location: {
       lat: {
         type: Number,
-        required: true,
+        required: false,
       },
       lng: {
         type: Number,
-        required: true,
+        required: false,
       },
     },
   },

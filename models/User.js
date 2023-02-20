@@ -47,25 +47,6 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: false
     },
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     address: {
       type: String,
       required: false,
@@ -74,7 +55,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-
   },
   {
     timestamps: true,
