@@ -11,8 +11,6 @@ const {
 //add a Branch
 router.post('/add', addBranch);
 
-
-
 //get all Branch
 router.get('/', getAllBranchs);
 
