@@ -21,15 +21,15 @@ const tourSchema = new mongoose.Schema(
                 required: true,
             },
             flightDate: {
-                type: Date,
+                type: String,
                 required: true,
             },
             flightTime: {
-                type: timestamps,
+                type: String,
                 required: true,
             },
             reachTime: {
-                type: timestamps,
+                type: String,
                 required: true,
             },
         }
@@ -50,15 +50,15 @@ const tourSchema = new mongoose.Schema(
                 required: true,
             },
             flightDate: {
-                type: Date,
+                type: String,
                 required: true,
             },
             flightTime: {
-                type: timestamps,
+                type: String,
                 required: true,
             },
             reachTime: {
-                type: timestamps,
+                type: String,
                 required: true,
             },
         }
