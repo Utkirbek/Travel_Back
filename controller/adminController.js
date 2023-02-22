@@ -14,6 +14,7 @@ const Admin = require('../models/Admin');
 const registerAdmin = async (req, res) => {
   try {
     const isAdded = await Admin.findOne({ email: req.body.email });
+    console.log();
     if (isAdded) {
       return res.status(403).send({
         message: 'This Email already Added!',
