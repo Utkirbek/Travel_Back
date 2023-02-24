@@ -61,7 +61,7 @@ const loginAdmin = async (req, res) => {
       bcrypt.compareSync(req.body.password, admin.password)
     ) {
       const token = signInToken(admin);
-      const branch = Branch.findById(admin.branch);
+      const branch = await  Branch.findById(admin.branch);
       res.send({
         token,
         _id: admin._id,
