@@ -3,7 +3,7 @@ const Tour = require('../models/Tour');
 
 const addTour = async (req, res) => {
     try {
-        const newTour = new User(req.body);
+        const newTour = new Tour(req.body);
         await newTour.save();
         res.send({ message: 'Tour Added Successfully!' });
     } catch (err) {
