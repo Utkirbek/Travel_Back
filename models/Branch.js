@@ -6,6 +6,7 @@ const branchSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    admins: [],
     address: {
       type: String,
       required: true,

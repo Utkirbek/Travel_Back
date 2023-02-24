@@ -17,8 +17,10 @@ const getAllBranchs = async (req, res) => {
 
     for (let i = 0; i < Branchs.length; i++) {
       const admins = await Admin.find({ branch: Branchs[i]._id });
-      Branchs[i].admins = admins; 
+      Branchs[i].admins = admins;
     }
+
+
     
     res.send(Branchs);
   } catch (err) {
