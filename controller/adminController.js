@@ -118,6 +118,11 @@ const getAllStaff = async (req, res) => {
   try {
     const admins = await Admin.find({})
       .sort({ _id: -1 });
+
+      for (let i = 0; i < admins.length; i++) {
+        const branch = await Branch.findById(admins[i].branch);
+        admins[i].branch = branch;
+      }
     res.send(admins);
   } catch (err) {
     res.status(500).send({ message: err.message });
