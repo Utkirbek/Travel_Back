@@ -30,7 +30,7 @@ const registerAdmin = async (req, res) => {
         phone: req.body.phone,
         password: bcrypt.hashSync(req.body.password),
       });
-      const branch = Branch.findById(req.body.branch);
+      const branch =await  Branch.findById(req.body.branch);
       
       const staff = await newStaff.save();
       const token = signInToken(staff);
