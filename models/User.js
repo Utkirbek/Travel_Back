@@ -60,6 +60,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    tour: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tour',
+      required: true,
+    },
   },
   {
     timestamps: true,
