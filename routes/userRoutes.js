@@ -6,6 +6,8 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  pay,
+  refund,
 } = require('../controller/userController');
 
 //add a Branch
@@ -22,5 +24,11 @@ router.put('/:id', updateUser);
 
 //delete a Branch
 router.delete('/:id', deleteUser);
+
+//pay
+router.post('/:id/pay', pay);
+
+//refund
+router.post('/:id/refund', refund);
 
 module.exports = router;

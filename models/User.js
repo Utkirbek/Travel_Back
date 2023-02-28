@@ -71,6 +71,18 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.methods.pay = async function (amount) {
+  this.paid += amount;
+  this.left -= amount;
+  await this.save();
+};
+
+userSchema.methods.refund = async function (amount) {
+  this.paid -= amount;
+  this.left += amount;
+  await this.save();
+};
+
 const User =
   mongoose.models.User || mongoose.model('User', userSchema);
 
