@@ -11,6 +11,8 @@ const orderRoutes = require('../routes/orderRoutes');
 const userRoutes = require('../routes/userRoutes');
 const categoryRoutes = require('../routes/categoryRoutes');
 const branchRoutes = require('../routes/branchRoutes');
+const kassaRoutes = require('../routes/kassaRoutes');
+const profitRoutes = require('../routes/profitRoutes');
 const { isAuth, isAdmin } = require('../config/auth');
 
 connectDB();
@@ -36,6 +38,8 @@ app.use('/api/category/', categoryRoutes);
 app.use('/api/branch/', branchRoutes);
 app.use('/api/user/', userRoutes);
 app.use('/api/tour/', tourRoutes);
+app.use('/api/kassa/', kassaRoutes);
+app.use('/api/profit/', profitRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use('/api/admin/', adminRoutes);
