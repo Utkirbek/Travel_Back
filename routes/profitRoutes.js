@@ -9,6 +9,6 @@ const {
 router.get('/:branch/', getAllProfit);
 
 //create new Profit
-router.get('/:branch/add', dailyProfit);
+router.post('/add', dailyProfit);
 
 module.exports = router;

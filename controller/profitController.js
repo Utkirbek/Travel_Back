@@ -11,6 +11,9 @@ const dailyProfit = async (req, res) => {
 
       console.log('new Profit created');
     }
+    res.status(200).send({
+      message: 'new Profit created',
+    });
   } catch (err) {
     console.log('error in creating new Profit');
   }

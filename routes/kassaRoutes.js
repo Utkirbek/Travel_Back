@@ -9,6 +9,6 @@ const {
 router.get('/:branch/', getAllKassa);
 
 //create new kassa
-router.get('/:branch/add', addDailyKassa);
+router.post('/add', addDailyKassa);
 
 module.exports = router;

@@ -4,13 +4,16 @@ const Branch = require('../models/Branch');
 const addDailyKassa = async (req, res) => {
   try {
     const branches = await Branch.find({});
-
+    console.log(branches);
     for (let i = 0; i <= branches.length - 1; i++) {
       const newKassa = new Kassa({ branch: branches[i]._id });
       await newKassa.save();
 
       console.log('new kassa created');
     }
+    res.status(200).send({
+      message: 'new kassa created',
+    });
   } catch (err) {
     console.log('error in creating new kassa');
   }
