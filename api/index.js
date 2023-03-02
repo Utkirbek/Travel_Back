@@ -4,12 +4,12 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const connectDB = require('../config/db');
-const productRoutes = require('../routes/productRoutes');
+
 const tourRoutes = require('../routes/tourRoutes');
 const adminRoutes = require('../routes/adminRoutes');
-const orderRoutes = require('../routes/orderRoutes');
+
 const userRoutes = require('../routes/userRoutes');
-const categoryRoutes = require('../routes/categoryRoutes');
+
 const branchRoutes = require('../routes/branchRoutes');
 const kassaRoutes = require('../routes/kassaRoutes');
 const profitRoutes = require('../routes/profitRoutes');
@@ -33,8 +33,7 @@ app.get('/', (req, res) => {
 });
 
 //this for route will need for store front, also for admin dashboard
-app.use('/api/products/', productRoutes);
-app.use('/api/category/', categoryRoutes);
+
 app.use('/api/branch/', branchRoutes);
 app.use('/api/user/', userRoutes);
 app.use('/api/tour/', tourRoutes);
@@ -43,7 +42,6 @@ app.use('/api/profit/', profitRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use('/api/admin/', adminRoutes);
-app.use('/api/orders/', isAuth, orderRoutes);
 
 // Use express's default error handling middleware
 app.use((err, req, res, next) => {
