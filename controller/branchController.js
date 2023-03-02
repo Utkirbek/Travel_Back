@@ -40,17 +40,19 @@ const getBranchById = async (req, res) => {
 
 const updateBranch = async (req, res) => {
   try {
-    const Branch = await Branch.findById(req.params.id);
-    console.log(Branch);
-    if (Branch) {
-      Branch.title = req.body.title;
-      Branch.address = req.body.address;
-      Branch.phone = req.body.phone;
-      await Branch.save();
+    const branch = await Branch.findById(req.params.id);
+
+    if (branch) {
+      branch.title = req.body.title;
+      branch.address = req.body.address;
+      branch.phone = req.body.phone;
+      branch.admins = req.body.admins;
+      branch.location = req.body.location;
+      await branch.save();
       res.send({ message: 'Branch Updated Successfully!' });
     }
   } catch (err) {
-    res.status(404).send({ message: 'Branch not found!' });
+    res.status(404).send({ err, message: 'Branch not found!' });
   }
 };
 
