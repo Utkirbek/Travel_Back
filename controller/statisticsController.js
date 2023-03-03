@@ -5,8 +5,8 @@ const Profit = require('../models/Profit');
 
 const users = async (req, res) => {
     try {
-        const start =  new Date (req.body.startDate);
-        const end = new Date (req.body.endDate);
+        const start =  new Date ();
+        const end = new Date ();
 
         const users  = await User.find({
             createdAt: {
