@@ -10,8 +10,8 @@ const users = async (req, res) => {
 
         const users  = await User.find({
             createdAt: {
-                gte: req.body.start,
-                lte: req.body.end,
+                gte: start,
+                lte: end,
             }
         });
     } catch (err) {
