@@ -30,6 +30,7 @@ const getAllBranchs = async (req, res) => {
 const getBranchById = async (req, res) => {
   try {
     const Branch = await Branch.findById(req.params.id);
+
     res.send(Branch);
   } catch (err) {
     res.status(500).send({
