@@ -87,15 +87,13 @@ const tourSchema = new mongoose.Schema(
 );
 
 tourSchema.methods.minusTickets = async function () {
-  this.tickets.amount -= 1;
+  this.tickets.remaining -= 1;
   await this.save();
-  return this.tickets;
 };
 
 tourSchema.methods.addTickets = async function () {
-  this.tickets.amount += 1;
+  this.tickets.remaining += 1;
   await this.save();
-  return this.tickets;
 };
 
 const Tour = mongoose.model('Tour', tourSchema);
