@@ -26,18 +26,37 @@ const kassaAndProfit = async (req, res) => {
     const start = new Date(req.body.startDate);
 
     const end = new Date(req.body.endDate);
-    const kassas = await Kassa.find({
-      createdAt: {
-        $gte: start,
-        $lte: end,
-      },
-    });
-    const profits = await Profit.find({
-      createdAt: {
-        $gte: start,
-        $lte: end,
-      },
-    });
+    let kassas;
+    let profits;
+    if (req.body.branch) {
+      kassas = await Kassa.find({
+        branch: req.body.branch,
+        createdAt: {
+          $gte: new Date(start),
+          $lte: new Date(end),
+        },
+      });
+      profits = await Profit.find({
+        branch: req.body.branch,
+        createdAt: {
+          $gte: new Date(start),
+          $lte: new Date(end),
+        },
+      });
+    } else {
+      kassas = await Kassa.find({
+        createdAt: {
+          $gte: start,
+          $lte: end,
+        },
+      });
+      profits = await Profit.find({
+        createdAt: {
+          $gte: start,
+          $lte: end,
+        },
+      });
+    }
 
     res.status(200).send({
       kassas,
