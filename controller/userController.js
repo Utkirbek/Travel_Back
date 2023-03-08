@@ -13,7 +13,7 @@ const addUser = async (req, res) => {
     } else {
       res.status(404).send({ message: 'Tour not found!' });
     }
-    const kassa = await Kassa.find({ branch: req.params.branch })
+    const kassa = await Kassa.find({ branch: req.body.branch })
       .sort({ _id: -1 })
       .limit(1);
 
@@ -22,7 +22,7 @@ const addUser = async (req, res) => {
     } else {
       res.status(404).send({ message: 'Kassa not found!' });
     }
-    const profit = await Profit.find({ branch: req.params.branch })
+    const profit = await Profit.find({ branch: req.body.branch })
       .sort({ _id: -1 })
       .limit(1);
     let profitAmount = tour.tickets.price - req.body.price;
