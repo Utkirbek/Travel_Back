@@ -116,6 +116,20 @@ const refund = async (req, res) => {
   }
 };
 
+const changeStatus = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.changeStatus(req.body.status);
+      res.send({ message: 'User Status Changed Successfully!' });
+    } else {
+      res.status(404).send({ message: 'User not found!' });
+    }
+  } catch (err) {
+    res.status(404).send({ message: 'User not found!' });
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
@@ -124,4 +138,5 @@ module.exports = {
   deleteUser,
   pay,
   refund,
+  changeStatus,
 };

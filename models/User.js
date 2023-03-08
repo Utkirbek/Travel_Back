@@ -65,6 +65,11 @@ const userSchema = new mongoose.Schema(
       ref: 'Tour',
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['waiting', 'accepted', 'rejected'],
+      default: 'waiting',
+    },
   },
   {
     timestamps: true,
@@ -80,6 +85,11 @@ userSchema.methods.pay = async function (amount) {
 userSchema.methods.refund = async function (amount) {
   this.paid -= amount;
   this.left += amount;
+  await this.save();
+};
+
+userSchema.methods.changeStatus = async function (status) {
+  this.status = status;
   await this.save();
 };
 
