@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
       user.sex = req.body.sex;
       user.countryOfBirth = req.body.countryOfBirth;
       user.passportExpireDate = req.body.passportExpireDate;
-      user.address = req.body.address;
+      user.passportImage = req.body.passportImage;
       user.phone = req.body.phone;
       user.responsibleMan = req.body.responsibleMan;
       user.visaNumber = req.body.visaNumber;
