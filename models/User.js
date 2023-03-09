@@ -74,6 +74,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    visaNumber: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
