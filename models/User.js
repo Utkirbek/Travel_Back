@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    address: {
+    passportImage: {
       type: String,
       required: false,
     },
