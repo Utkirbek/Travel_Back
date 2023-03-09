@@ -64,9 +64,18 @@ const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (user) {
-      user.name = req.body.name;
-      user.email = req.body.email;
-      user.isAdmin = req.body.isAdmin;
+      user.firstName = req.body.firstName;
+      user.secondName = req.body.secondName;
+      user.nationality = req.body.nationality;
+      user.passportNumber = req.body.passportNumber;
+      user.dateOfBirth = req.body.dateOfBirth;
+      user.sex = req.body.sex;
+      user.countryOfBirth = req.body.countryOfBirth;
+      user.passportExpireDate = req.body.passportExpireDate;
+      user.address = req.body.address;
+      user.phone = req.body.phone;
+      user.responsibleMan = req.body.responsibleMan;
+
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }

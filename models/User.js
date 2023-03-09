@@ -70,6 +70,10 @@ const userSchema = new mongoose.Schema(
       enum: ['waiting', 'accepted', 'rejected'],
       default: 'waiting',
     },
+    responsibleMan: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
