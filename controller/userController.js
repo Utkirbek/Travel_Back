@@ -51,7 +51,7 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate('tour');
     res.send(user);
   } catch (err) {
     res.status(500).send({
