@@ -1,5 +1,6 @@
 const Tour = require('../models/Tour');
 
+
 const addTour = async (req, res) => {
   try {
     const newTour = new Tour(req.body);
