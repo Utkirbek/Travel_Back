@@ -48,7 +48,11 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
-    price: {
+    priceDollar: {
+      type: Number,
+      required: true,
+    },
+    priceSum: {
       type: Number,
       required: true,
     },
