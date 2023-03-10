@@ -76,7 +76,6 @@ const updateUser = async (req, res) => {
       user.phone = req.body.phone;
       user.responsibleMan = req.body.responsibleMan;
       user.visaNumber = req.body.visaNumber;
-
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }
@@ -140,6 +139,26 @@ const changeStatus = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  try {
+    const users = await User.find({
+      $or: [
+        { firstName: { $regex: req.body.search, $options: 'i' } },
+        { secondName: { $regex: req.body.search, $options: 'i' } },
+        {
+          passportNumber: { $regex: req.body.search, $options: 'i' },
+        },
+        { phone: { $regex: req.body.search, $options: 'i' } },
+      ],
+    });
+    res.send(users);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
@@ -149,4 +168,5 @@ module.exports = {
   pay,
   refund,
   changeStatus,
+  searchUser,
 };

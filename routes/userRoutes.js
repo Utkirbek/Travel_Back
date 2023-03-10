@@ -9,6 +9,7 @@ const {
   pay,
   refund,
   changeStatus,
+  searchUser,
 } = require('../controller/userController');
 
 //add a Branch
@@ -34,5 +35,8 @@ router.post('/:id/refund', refund);
 
 //change status
 router.post('/:id/status', changeStatus);
+
+//search user
+router.post('/search', searchUser);
 
 module.exports = router;
