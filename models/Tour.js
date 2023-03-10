@@ -67,18 +67,27 @@ const tourSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
-      totalPrice: {
+      totalMoney: {
         type: Number,
         required: true,
       },
-      paid: {
+      paidMoney: {
+        type: Number,
+        required: true,
+      },
+      remainingMoney: {
         type: Number,
         required: true,
       },
       remaining: {
         type: Number,
+        required: false,
+      },
+      minPrice: {
+        type: Number,
         required: true,
       },
+
     },
   },
   {
