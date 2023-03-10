@@ -7,6 +7,13 @@ const addUser = async (req, res) => {
   try {
     const newUser = new User(req.body);
     await newUser.save();
+    newUser.setNext('contractNumber', function (err) {
+      if (err)
+        console.log(
+          'Cannot increment the Contract Number because ',
+          err
+        );
+    });
     const tour = await Tour.findById(req.body.tour);
     if (tour) {
       await tour.minusTickets();
@@ -25,7 +32,7 @@ const addUser = async (req, res) => {
     const profit = await Profit.find({ branch: req.body.branch })
       .sort({ _id: -1 })
       .limit(1);
-    let profitAmount = tour.tickets.price - req.body.price;
+    let profitAmount = req.body.priceDollar - tour.tickets.price;
     if (profit) {
       await profit[0].addAmount(profitAmount);
     } else {
