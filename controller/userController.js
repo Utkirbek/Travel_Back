@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Tour = require('../models/Tour');
 const Kassa = require('../models/Kassa');
 const Profit = require('../models/Profit');
+const writeXlsxFile = require('write-excel-file/node');
 
 const addUser = async (req, res) => {
   try {
@@ -166,6 +167,99 @@ const searchUser = async (req, res) => {
   }
 };
 
+const makeExcelUsersByTourId = async (req, res) => {
+  try {
+    const users = await User.find({});
+
+    const data = [
+      [
+        {
+          value: 'Number',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Nationality',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Family Name',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Given Name',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Passport Number',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Date of Birth',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Sex',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Country of Birth',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Document Expiry Date',
+          fontWeight: 'bold',
+        },
+      ],
+    ];
+    console.log(users);
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      const row = [
+        {
+          value: i + 1,
+        },
+        {
+          value: user.nationality,
+        },
+        {
+          value: user.secondName,
+        },
+        {
+          value: user.firstName,
+        },
+        {
+          value: user.passportNumber,
+        },
+        {
+          value: user.dateOfBirth,
+        },
+        {
+          value: user.sex,
+        },
+        {
+          value: user.countryOfBirth,
+        },
+        {
+          value: user.passportExpireDate,
+        },
+      ];
+
+      data.push(row);
+    }
+
+    await writeXlsxFile(data, {
+      filePath: 'users.xlsx',
+    });
+    res.download('users.xlsx', (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
@@ -176,4 +270,5 @@ module.exports = {
   refund,
   changeStatus,
   searchUser,
+  makeExcelUsersByTourId,
 };

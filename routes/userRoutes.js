@@ -10,6 +10,7 @@ const {
   refund,
   changeStatus,
   searchUser,
+  makeExcelUsersByTourId,
 } = require('../controller/userController');
 
 //add a Branch
@@ -38,5 +39,8 @@ router.post('/:id/status', changeStatus);
 
 //search user
 router.post('/search', searchUser);
+
+//make excel file
+router.get('/excel/:id', makeExcelUsersByTourId);
 
 module.exports = router;
