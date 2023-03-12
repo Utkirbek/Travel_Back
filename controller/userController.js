@@ -169,7 +169,7 @@ const searchUser = async (req, res) => {
 
 const makeExcelUsersByTourId = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({ tour: req.params.id });
 
     const data = [
       [
