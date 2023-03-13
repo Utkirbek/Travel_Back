@@ -85,23 +85,41 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = (req, res) => {
-  User.deleteOne({ _id: req.params.id }, async (err) => {
-    if (err) {
-      res.status(500).send({ message: err.message });
-    } else {
-      const user = await User.findById(req.params.id);
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    
+    if (user) {
       const tour = await Tour.findById(user.tour);
       if (tour) {
-        await tour.plusTickets();
-      } else {
-        res.status(404).send({ message: 'Tour not found!' });
+        await tour.addTickets();
       }
+      const kassa = await Kassa.find({ branch: user.branch })
+        .sort({ _id: -1 })
+        .limit(1);
+      if (kassa) {
+        await kassa[0].minusAmount(user.paid);
+      }
+      const profit = await Profit.find({ branch: user.branch })
+        .sort({ _id: -1 })
+        .limit(1);
+      let profitAmount = tour.tickets.price - user.priceDollar;
 
-      res.send({ message: 'User deleted successfully!' });
+      if (profit) {
+        await profit[0].minusAmount(profitAmount);
+      }
+      await user.remove();
+      res.send({ message: 'User Deleted Successfully!' });
+    } else {
+      res.status(404).send({ message: 'User not found!' });
     }
-  });
-};
+
+  } catch (err) {
+    res.status(404).send({ message: 'User not found!'+ err.message });
+  }
+}
+
+
 const pay = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
