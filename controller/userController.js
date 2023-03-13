@@ -2,11 +2,19 @@ const User = require('../models/User');
 const Tour = require('../models/Tour');
 const Kassa = require('../models/Kassa');
 const Profit = require('../models/Profit');
+const writeXlsxFile = require('write-excel-file/node');
 
 const addUser = async (req, res) => {
   try {
     const newUser = new User(req.body);
     await newUser.save();
+    newUser.setNext('contractNumber', function (err) {
+      if (err)
+        console.log(
+          'Cannot increment the Contract Number because ',
+          err
+        );
+    });
     const tour = await Tour.findById(req.body.tour);
     if (tour) {
       await tour.minusTickets();
@@ -25,7 +33,7 @@ const addUser = async (req, res) => {
     const profit = await Profit.find({ branch: req.body.branch })
       .sort({ _id: -1 })
       .limit(1);
-    let profitAmount = tour.tickets.price - req.body.price;
+    let profitAmount = req.body.priceDollar - tour.tickets.price;
     if (profit) {
       await profit[0].addAmount(profitAmount);
     } else {
@@ -76,7 +84,6 @@ const updateUser = async (req, res) => {
       user.phone = req.body.phone;
       user.responsibleMan = req.body.responsibleMan;
       user.visaNumber = req.body.visaNumber;
-
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }
@@ -158,6 +165,119 @@ const changeStatus = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  try {
+    const users = await User.find({
+      $or: [
+        { firstName: { $regex: req.body.search, $options: 'i' } },
+        { secondName: { $regex: req.body.search, $options: 'i' } },
+        {
+          passportNumber: { $regex: req.body.search, $options: 'i' },
+        },
+        { phone: { $regex: req.body.search, $options: 'i' } },
+      ],
+    });
+    res.send(users);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const makeExcelUsersByTourId = async (req, res) => {
+  try {
+    const users = await User.find({ tour: req.params.id });
+
+    const data = [
+      [
+        {
+          value: 'Number',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Nationality',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Family Name',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Given Name',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Passport Number',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Date of Birth',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Sex',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Country of Birth',
+          fontWeight: 'bold',
+        },
+        {
+          value: 'Document Expiry Date',
+          fontWeight: 'bold',
+        },
+      ],
+    ];
+    console.log(users);
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      const row = [
+        {
+          value: i + 1,
+        },
+        {
+          value: user.nationality,
+        },
+        {
+          value: user.secondName,
+        },
+        {
+          value: user.firstName,
+        },
+        {
+          value: user.passportNumber,
+        },
+        {
+          value: user.dateOfBirth,
+        },
+        {
+          value: user.sex,
+        },
+        {
+          value: user.countryOfBirth,
+        },
+        {
+          value: user.passportExpireDate,
+        },
+      ];
+
+      data.push(row);
+    }
+
+    await writeXlsxFile(data, {
+      filePath: 'users.xlsx',
+    });
+    res.download('users.xlsx', (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
@@ -167,4 +287,6 @@ module.exports = {
   pay,
   refund,
   changeStatus,
+  searchUser,
+  makeExcelUsersByTourId,
 };

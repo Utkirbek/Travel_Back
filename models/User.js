@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const userSchema = new mongoose.Schema(
   {
@@ -82,11 +83,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    contractNumber: {
+      type: Number,
+      required: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+userSchema.plugin(AutoIncrement, {
+  inc_field: 'contractNumber',
+  disable_hooks: true,
+});
 
 userSchema.methods.pay = async function (amount) {
   this.paid += amount;
