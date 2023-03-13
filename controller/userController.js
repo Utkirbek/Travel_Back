@@ -84,6 +84,7 @@ const updateUser = async (req, res) => {
       user.phone = req.body.phone;
       user.responsibleMan = req.body.responsibleMan;
       user.visaNumber = req.body.visaNumber;
+      user.passportImage = req.body.passportImage;
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }
