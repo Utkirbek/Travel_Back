@@ -1,6 +1,6 @@
 const User = require('../models/User');
-const Kassa = require('../models/Kassa');
-const Profit = require('../models/Profit');
+const Money = require('../models/Money');
+
 const Tour = require('../models/Tour');
 const users = async (req, res) => {
   try {
@@ -25,17 +25,10 @@ const kassaAndProfit = async (req, res) => {
   try {
     const start = new Date(req.body.startDate);
     const end = new Date(req.body.endDate);
-    let kassas;
-    let profits;
+    let money;
+
     if (req.body.branch) {
-      kassas = await Kassa.find({
-        branch: req.body.branch,
-        createdAt: {
-          $gte: new Date(start),
-          $lte: new Date(end),
-        },
-      });
-      profits = await Profit.find({
+      money = await Money.find({
         branch: req.body.branch,
         createdAt: {
           $gte: new Date(start),
@@ -43,13 +36,7 @@ const kassaAndProfit = async (req, res) => {
         },
       });
     } else {
-      kassas = await Kassa.find({
-        createdAt: {
-          $gte: start,
-          $lte: end,
-        },
-      });
-      profits = await Profit.find({
+      money = await Money.find({
         createdAt: {
           $gte: start,
           $lte: end,
@@ -58,8 +45,7 @@ const kassaAndProfit = async (req, res) => {
     }
 
     res.status(200).send({
-      kassas,
-      profits,
+      money,
     });
   } catch (err) {
     res.status(500).send({
@@ -73,17 +59,14 @@ const mainStatistics = async (req, res) => {
     const branch = req.body.branch;
 
     let tour;
-    let kassa;
-    let profit;
+    let money;
 
     if (branch) {
       tour = await Tour.find();
-      kassa = await Kassa.find({ branch: branch });
-      profit = await Profit.find({ branch: branch });
+      money = await Money.find({ branch: branch });
     } else {
       tour = await Tour.find();
-      kassa = await Kassa.find();
-      profit = await Profit.find();
+      money = await Money.find();
     }
 
     let soldTickets = 0;
@@ -91,12 +74,12 @@ const mainStatistics = async (req, res) => {
     let totalKassa = 0;
     let leftTickets = 0;
 
-    for (let i = 0; i < kassa.length; i++) {
-      totalKassa += kassa[i].amount;
+    for (let i = 0; i < money.length; i++) {
+      totalKassa += money[i].kassa;
     }
 
-    for (let i = 0; i < profit.length; i++) {
-      totalProfit += profit[i].amount;
+    for (let i = 0; i < money.length; i++) {
+      totalProfit += money[i].profit;
     }
 
     for (let i = 0; i < tour.length; i++) {

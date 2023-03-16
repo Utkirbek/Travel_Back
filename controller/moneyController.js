@@ -1,25 +1,25 @@
-const Kassa = require('../models/Kassa');
+const Money = require('../models/Money');
 const Branch = require('../models/Branch');
 
-const addDailyKassa = async (req, res) => {
+const addDailyMoney = async (req, res) => {
   try {
     const branches = await Branch.find({});
     console.log(branches);
     for (let i = 0; i <= branches.length - 1; i++) {
-      const newKassa = new Kassa({ branch: branches[i]._id });
-      await newKassa.save();
+      const newMoney = new Money({ branch: branches[i]._id });
+      await newMoney.save();
 
-      console.log('new kassa created');
+      console.log('new Money created');
     }
     res.status(200).send({
-      message: 'new kassa created',
+      message: 'new Money created',
     });
   } catch (err) {
-    console.log('error in creating new kassa');
+    console.log('error in creating new Money');
   }
 };
 
-const getAllKassa = async (req, res) => {
+const getAllMoney = async (req, res) => {
   try {
     let { page, size } = req.query;
 
@@ -32,16 +32,16 @@ const getAllKassa = async (req, res) => {
     }
 
     const limit = parseInt(size);
-    const AllKassa = await Kassa.find({ branch: req.params.branch });
-    const kassas = await Kassa.find({ branch: req.params.branch })
+    const AllMoney = await Money.find({ branch: req.params.branch });
+    const Moneys = await Money.find({ branch: req.params.branch })
       .sort({ _id: -1 })
       .limit(limit)
       .skip((page - 1) * limit)
       .populate('branch');
     res.send({
-      kassas: kassas,
-      count: kassas.length,
-      totalPage: Math.ceil(AllKassa.length / limit),
+      Moneys: Moneys,
+      count: Moneys.length,
+      totalPage: Math.ceil(AllMoney.length / limit),
     });
   } catch (err) {
     res.status(500).send({
@@ -51,6 +51,6 @@ const getAllKassa = async (req, res) => {
 };
 
 module.exports = {
-  getAllKassa,
-  addDailyKassa,
+  getAllMoney,
+  addDailyMoney,
 };

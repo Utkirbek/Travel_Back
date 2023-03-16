@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const Tour = require('../models/Tour');
-const Kassa = require('../models/Kassa');
-const Profit = require('../models/Profit');
+const Money = require('../models/Money.js');
+
 const writeXlsxFile = require('write-excel-file/node');
 
 const addUser = async (req, res) => {
@@ -21,23 +21,14 @@ const addUser = async (req, res) => {
     } else {
       res.status(404).send({ message: 'Tour not found!' });
     }
-    const kassa = await Kassa.find({ branch: req.body.branch })
-      .sort({ _id: -1 })
-      .limit(1);
-
-    if (kassa) {
-      await kassa[0].addAmount(req.body.paid);
-    } else {
-      res.status(404).send({ message: 'Kassa not found!' });
-    }
-    const profit = await Profit.find({ branch: req.body.branch })
+    const money = await Money.find({ branch: req.body.branch })
       .sort({ _id: -1 })
       .limit(1);
     let profitAmount = req.body.priceDollar - tour.tickets.price;
-    if (profit) {
-      await profit[0].addAmount(profitAmount);
+    if (money) {
+      await money[0].addAmount(req.body.paid, profitAmount);
     } else {
-      res.status(404).send({ message: 'Profit not found!' });
+      res.status(404).send({ message: 'Money not found!' });
     }
 
     res.send({ message: 'User Added Successfully!' });
