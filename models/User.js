@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
     },
     passportImage: {
       type: String,
-      required: false,
+      required: true,
     },
     phone: {
       type: String,
