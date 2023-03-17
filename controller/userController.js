@@ -106,9 +106,6 @@ const deleteUser = async (req, res) => {
         await money[0].minusAmount(user.paid, profitAmount);
       }
       
-      
-
-     
       await user.remove();
       res.send({ message: 'User Deleted Successfully!' });
     } else {
