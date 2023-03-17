@@ -32,8 +32,13 @@ moneySchema.methods.addAmount = function (kassa, profit) {
 };
 
 moneySchema.methods.minusAmount = function (kassa, profit) {
+  console.log('kassa', kassa);
+  console.log('profit', profit);
   this.kassa = +this.kassa - +kassa;
   this.profit = +this.profit - +profit;
+
+  console.log('thiskassa', this.kassa);
+  console.log('thisprofit', this.profit);
   this.save();
 };
 const Money = mongoose.model('Money', moneySchema);
