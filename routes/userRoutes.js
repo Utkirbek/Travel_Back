@@ -17,7 +17,7 @@ const {
 router.post('/add', addUser);
 
 //get all Branch
-router.get('/', getAllUsers);
+router.post('/', getAllUsers);
 
 //get a Branch
 router.get('/:id', getUserById);

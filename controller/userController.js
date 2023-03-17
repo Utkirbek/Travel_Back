@@ -39,7 +39,12 @@ const addUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).sort({ _id: -1 });
+    let users;
+    if(req.body.branch){
+      users = await User.find({branch: req.body.branch}).sort({ _id: -1 });
+    }else{
+      users = await User.find({}).sort({ _id: -1 });
+    }
     res.send(users);
   } catch (err) {
     res.status(500).send({
