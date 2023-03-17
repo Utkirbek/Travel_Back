@@ -93,20 +93,17 @@ const deleteUser = async (req, res) => {
       if (tour) {
         await tour.addTickets();
       }
-      const kassa = await Kassa.find({ branch: user.branch })
-        .sort({ _id: -1 })
-        .limit(1);
-      if (kassa) {
-        await kassa[0].minusAmount(user.paid);
-      }
-      const profit = await Profit.find({ branch: user.branch })
-        .sort({ _id: -1 })
-        .limit(1);
       let profitAmount = tour.tickets.price - user.priceDollar;
-
-      if (profit) {
-        await profit[0].minusAmount(profitAmount);
+      const money = await Money.find({ branch: user.branch })
+        .sort({ _id: -1 })
+        .limit(1);
+      if (money) {
+        await money[0].minusAmount(user.paid, profitAmount);
       }
+      
+      
+
+     
       await user.remove();
       res.send({ message: 'User Deleted Successfully!' });
     } else {
