@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Tour = require('../models/Tour');
 const Money = require('../models/Money.js');
+const Branch = require('../models/Branch.js');
 
 const writeXlsxFile = require('write-excel-file/node');
 
@@ -121,8 +122,15 @@ const deleteUser = async (req, res) => {
 const pay = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    const branch = await Branch.findById(user.branch);
+    const money = await Money.find({ branch: user.branch })
     if (user) {
       user.pay(req.body.amount);
+      if (money) {
+        await money[0].addAmount(req.body.amount, 0);
+      } else {
+        res.status(404).send({ message: 'Money not found!' });
+      }
       res.send({ message: 'User Paid Successfully!' });
     }
   } catch (err) {
