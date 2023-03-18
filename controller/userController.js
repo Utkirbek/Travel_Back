@@ -100,7 +100,6 @@ const deleteUser = async (req, res) => {
         await tour.addTickets();
       }
       let profitAmount =user.priceDollar- tour.tickets.price;
-      console.log(profitAmount);
       const money = await Money.find({ branch: user.branch })
         .sort({ _id: -1 })
         .limit(1);
