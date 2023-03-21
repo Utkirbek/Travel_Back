@@ -59,6 +59,11 @@ const tourSchema = new mongoose.Schema(
       },
     ],
     tickets: {
+      booked: {
+        type: Number,
+        required: false,
+        default: 0,
+      },
       amount: {
         type: Number,
         required: true,
@@ -83,7 +88,11 @@ const tourSchema = new mongoose.Schema(
         type: Number,
         required: false,
       },
-      minPrice: {
+      minTicketPrice: {
+        type: Number,
+        required: true,
+      },
+      minTourPrice: {
         type: Number,
         required: true,
       },
@@ -100,13 +109,25 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-tourSchema.methods.minusTickets = async function () {
-  this.tickets.remaining -= 1;
+tourSchema.methods.minusTickets = async function (type) {
+  if(type === 'booked'){
+    this.tickets.remaining -= 1;
+    this.tickets.booked += 1;
+  }
+  else{
+    this.tickets.remaining -= 1;
+  }
+  
   await this.save();
 };
 
-tourSchema.methods.addTickets = async function () {
-  this.tickets.remaining += 1;
+tourSchema.methods.addTickets = async function (type) {
+  if(type === 'booked'){
+    this.tickets.remaining += 1;
+    this.tickets.booked -= 1;
+  }else{
+    this.tickets.remaining += 1;
+  }
   await this.save();
 };
 

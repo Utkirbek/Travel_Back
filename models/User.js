@@ -19,6 +19,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
+    tourOrTicket: {
+      type: String,
+      required: true,
+      enum: ['tour', 'ticket'],
+    },
+    tourStatus: {
+      type: String,
+      required: true,
+      enum: ['booked', 'paid'],
+    },
+    visaImage: {
+      type: String,
+      required: false,
+    },
     dateOfBirth: {
       type: String,
       required: true,

@@ -18,7 +18,7 @@ const addUser = async (req, res) => {
     });
     const tour = await Tour.findById(req.body.tour);
     if (tour) {
-      await tour.minusTickets();
+      await tour.minusTickets(req.body.tourStatus);
     } else {
       res.status(404).send({ message: 'Tour not found!' });
     }
@@ -97,7 +97,7 @@ const deleteUser = async (req, res) => {
     if (user) {
       const tour = await Tour.findById(user.tour);
       if (tour) {
-        await tour.addTickets();
+        await tour.addTickets(user.tourStatus);
       }
       let profitAmount =user.priceDollar- tour.tickets.price;
       const money = await Money.find({ branch: user.branch })
