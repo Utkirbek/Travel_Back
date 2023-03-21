@@ -8,23 +8,12 @@ const users = async (req, res) => {
     let users = 0
     const start = new Date(req.body.startDate);
     const end = new Date(req.body.endDate);
-    if(req.body.branch){
-    users = await User.countDocuments({
-      branch: req.body.branch,
-      tourStatus : 'paid',
-      createdAt: {
-        $gte: start,
-        $lte: end,
-      },
-    });}else{
       users = await User.countDocuments({
-        tourStatus : 'paid',
         createdAt: {
           $gte: start,
           $lte: end,
         },
       });
-    }
     res.status(200).send({
       users,
     });
@@ -84,6 +73,12 @@ const kassaAndProfit = async (req, res) => {
 const mainStatistics = async (req, res) => {
   try {
     const branch = req.body.branch;
+    let users ;
+    if (branch) {
+     users = await User.countDocuments({branch: branch, tourStatus: 'paid'});
+    } else {
+      users = await User.countDocuments({tourStatus: 'paid'});
+    }
 
     let tour;
     let money;
@@ -110,10 +105,9 @@ const mainStatistics = async (req, res) => {
     }
 
     for (let i = 0; i < tour.length; i++) {
-      soldTickets +=
-        tour[i].tickets.amount - tour[i].tickets.remaining;
       leftTickets += tour[i].tickets.remaining;
     }
+    soldTickets = users;
     res.status(200).send({
       soldTickets,
       totalProfit,
