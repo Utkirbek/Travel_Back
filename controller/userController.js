@@ -173,7 +173,7 @@ const searchUser = async (req, res) => {
         { firstName: { $regex: req.body.search, $options: 'i' } },
         { secondName: { $regex: req.body.search, $options: 'i' } },
         {
-          passportNumber: { $regex: req.body.search, $options: 'i' },
+          responsibleMan: { $regex: req.body.search, $options: 'i' },
         },
         { phone: { $regex: req.body.search, $options: 'i' } },
       ],
