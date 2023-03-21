@@ -7,7 +7,7 @@ const users = async (req, res) => {
   try {
     const start = new Date(req.body.startDate);
     const end = new Date(req.body.endDate);
-    const users = await User.find({
+    const users = await User.countDocuments({
       createdAt: {
         $gte: start,
         $lte: end,
