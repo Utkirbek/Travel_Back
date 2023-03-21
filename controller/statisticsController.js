@@ -5,14 +5,26 @@ const Branch = require('../models/Branch');
 const Tour = require('../models/Tour');
 const users = async (req, res) => {
   try {
+    let users = 0
     const start = new Date(req.body.startDate);
     const end = new Date(req.body.endDate);
-    const users = await User.countDocuments({
+    if(req.body.branch){
+    users = await User.countDocuments({
+      branch: req.body.branch,
+      tourStatus : 'paid',
       createdAt: {
         $gte: start,
         $lte: end,
       },
-    });
+    });}else{
+      users = await User.countDocuments({
+        tourStatus : 'paid',
+        createdAt: {
+          $gte: start,
+          $lte: end,
+        },
+      });
+    }
     res.status(200).send({
       users,
     });
