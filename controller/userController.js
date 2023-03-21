@@ -43,8 +43,10 @@ const getAllUsers = async (req, res) => {
     let users;
     if(req.body.branch){
       users = await User.find({branch: req.body.branch}).sort({ _id: -1 });
+    } if(req.body.tour){
+      users = await User.find({tour: req.body.tour}).sort({ _id: -1 });
     }else{
-      users = await User.find({}).sort({ _id: -1 });
+      users = await User.find().sort({ _id: -1 });
     }
     res.send(users);
   } catch (err) {
