@@ -1,7 +1,6 @@
 const Tour = require('../models/Tour');
 const User = require('../models/User');
 
-
 const addTour = async (req, res) => {
   try {
     const newTour = new Tour(req.body);
@@ -46,7 +45,6 @@ const updateTour = async (req, res) => {
       tour.going = req.body.going;
       tour.coming = req.body.coming;
       tour.tickets = req.body.tickets;
-
       await tour.save();
       res.send({ message: 'Tour Updated Successfully!' });
     }

@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Money = require('../models/Money');
+const Branch = require('../models/Branch');
 
 const Tour = require('../models/Tour');
 const users = async (req, res) => {
@@ -43,9 +44,21 @@ const kassaAndProfit = async (req, res) => {
         },
       });
     }
-
+    let fullData  = [];
+    for (let i = 0; i < money.length; i++) {
+      const branch = await Branch.findById(money[i].branch);
+      const obj = {
+        _id: money[i]._id,
+        kassa: money[i].kassa,
+        profit: money[i].profit,
+        branch: branch.title,
+        createdAt: money[i].createdAt,
+        updatedAt: money[i].updatedAt,
+      };
+      fullData.push(obj);
+    }
     res.status(200).send({
-      money,
+      fullData,
     });
   } catch (err) {
     res.status(500).send({
