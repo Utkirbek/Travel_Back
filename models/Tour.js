@@ -89,7 +89,12 @@ const tourSchema = new mongoose.Schema(
       },
 
     },
+    users: {
+      type: String,
+      required: false,
+    }
   },
+
   {
     timestamps: true,
   }

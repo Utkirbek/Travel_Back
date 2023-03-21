@@ -228,7 +228,7 @@ const makeExcelUsersByTourId = async (req, res) => {
         },
       ],
     ];
-    console.log(users);
+    
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
       const row = [

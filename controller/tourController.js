@@ -1,4 +1,5 @@
 const Tour = require('../models/Tour');
+const User = require('../models/User');
 
 
 const addTour = async (req, res) => {
@@ -14,7 +15,12 @@ const addTour = async (req, res) => {
 const getAllTours = async (req, res) => {
   try {
     const tours = await Tour.find({}).sort({ _id: -1 });
+    for (let i = 0; i < tours.length; i++) {
+      const users = await User.find({ tour: tours[i]._id });
+      tours[i].users = users;
+    }
     res.send(tours);
+
   } catch (err) {
     res.status(500).send({
       message: err.message,
