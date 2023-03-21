@@ -47,13 +47,15 @@ const kassaAndProfit = async (req, res) => {
     let fullData  = [];
     for (let i = 0; i < money.length; i++) {
       const branch = await Branch.findById(money[i].branch);
+      const createdAt = new Date(money[i].createdAt);
+      const updatedAt = new Date(money[i].updatedAt);
       const obj = {
         _id: money[i]._id,
         kassa: money[i].kassa,
         profit: money[i].profit,
         branch: branch.title,
-        createdAt: money[i].createdAt,
-        updatedAt: money[i].updatedAt,
+        createdAt: createdAt.toISOString().substring(0, 10),
+        updatedAt: updatedAt.toISOString().substring(0, 10)
       };
       fullData.push(obj);
     }
