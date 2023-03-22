@@ -1,10 +1,15 @@
 const Branch = require('../models/Branch');
 const Admin = require('../models/Admin');
+const Money = require('../models/Money');
+
 
 const addBranch = async (req, res) => {
   try {
     const newBranch = new Branch(req.body);
     await newBranch.save();
+    const newMoney =  new Money({branch: newBranch._id})
+    await newMoney.save();
+    console.log(newMoney);
     res.send({ message: 'Branch Added Successfully!' });
   } catch (err) {
     res.status(500).send({ message: err.message });
