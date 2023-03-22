@@ -90,7 +90,7 @@ const updateUser = async (req, res) => {
       res.send({ message: 'User Updated Successfully!' });
     }
   } catch (err) {
-    res.status(404).send({ message: 'User not found!' });
+    res.status(404).send({ message: 'User not found!'});
   }
 };
 
