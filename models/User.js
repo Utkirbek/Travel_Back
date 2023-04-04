@@ -105,6 +105,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    passportGivenBy: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

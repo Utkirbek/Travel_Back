@@ -71,6 +71,8 @@ const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (user) {
+      user.tourStatus = req.body.tourStatus;
+      user.tourOrTicket = req.body.tourOrTicket;
       user.firstName = req.body.firstName;
       user.secondName = req.body.secondName;
       user.nationality = req.body.nationality;
@@ -86,6 +88,7 @@ const updateUser = async (req, res) => {
       user.passportImage = req.body.passportImage;
       user.address = req.body.address;
       user.visaImage = req.body.visaImage;
+      user.passportGivenBy = req.body.passportGivenBy;
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }
