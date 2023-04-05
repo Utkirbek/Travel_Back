@@ -44,7 +44,6 @@ const updateTour = async (req, res) => {
     if (tour) {
       tour.going = req.body.going;
       tour.coming = req.body.coming;
-      tour.tickets = req.body.tickets;
       await tour.save();
       res.send({ message: 'Tour Updated Successfully!' });
     }
