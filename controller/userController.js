@@ -89,6 +89,7 @@ const updateUser = async (req, res) => {
       user.address = req.body.address;
       user.visaImage = req.body.visaImage;
       user.passportGivenBy = req.body.passportGivenBy;
+      user.passportGivenDate = req.body.passportGivenDate;
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }

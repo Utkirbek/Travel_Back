@@ -109,6 +109,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    passportGivenDate: {
+      type: String,
+      required: false,
+    },
+    dollarRate: {
+      type: Number,
+      required: true,
+    }
   },
   {
     timestamps: true,
