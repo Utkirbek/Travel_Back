@@ -95,7 +95,7 @@ const updateUser = async (req, res) => {
 
       if(user.tourStatus !== req.body.tourStatus){
         if (tour) {
-          await tour.changeTourStatus('paid');
+          await tour.changeTourStatus(re.body.tourStatus);
         } else {
           res.status(404).send({ message: 'Tour not found!' });
         }
