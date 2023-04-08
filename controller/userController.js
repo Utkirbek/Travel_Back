@@ -70,6 +70,8 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    const tour = await Tour.findById(user.tour)
+    
     if (user) {
       user.tourStatus = req.body.tourStatus;
       user.tourOrTicket = req.body.tourOrTicket;
@@ -90,6 +92,14 @@ const updateUser = async (req, res) => {
       user.visaImage = req.body.visaImage;
       user.passportGivenBy = req.body.passportGivenBy;
       user.passportGivenDate = req.body.passportGivenDate;
+
+      if(user.tourStatus !== req.body.tourStatus){
+        if (tour) {
+          await tour.changeTourStatus('paid');
+        } else {
+          res.status(404).send({ message: 'Tour not found!' });
+        }
+      }
       await user.save();
       res.send({ message: 'User Updated Successfully!' });
     }

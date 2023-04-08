@@ -131,5 +131,14 @@ tourSchema.methods.addTickets = async function (type) {
   await this.save();
 };
 
+tourSchema.methods.changeTourStatus = async function (tourStatus){
+  if(tourStatus=='paid'){
+    this.tickets.booked -=1;
+  }else{
+    this.tickets.booked+=1
+  }
+
+};
+
 const Tour = mongoose.model('Tour', tourSchema);
 module.exports = Tour;
