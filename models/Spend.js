@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const spendSchema = new mongoose.Schema(
   {
-    numberOfPeople: {
+    amoutOfPeople: {
       type: Number,
       required: true,
     },
     makkah: {
       room: {
-        number: {
+        amount: {
           type: Number,
           required: true,
         },
@@ -22,7 +22,7 @@ const spendSchema = new mongoose.Schema(
         },
       },
       food: {
-        number: {
+        amount: {
           type: Number,
           required: true,
         },
@@ -46,7 +46,7 @@ const spendSchema = new mongoose.Schema(
     },
     madina: {
       room: {
-        number: {
+        amount: {
           type: Number,
           required: true,
         },
@@ -60,7 +60,7 @@ const spendSchema = new mongoose.Schema(
         },
       },
       food: {
-        number: {
+        amount: {
           type: Number,
           required: true,
         },
