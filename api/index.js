@@ -7,6 +7,7 @@ const connectDB = require('../config/db');
 
 const tourRoutes = require('../routes/tourRoutes');
 const adminRoutes = require('../routes/adminRoutes');
+const spendRoutes = require('../routes/spendRoutes');
 
 const statisticsRoutes = require('../routes/statisticsRoutes');
 const userRoutes = require('../routes/userRoutes');
@@ -40,6 +41,7 @@ app.use('/api/user/', userRoutes);
 app.use('/api/tour/', tourRoutes);
 app.use('/api/money/', moneyRoutes);
 app.use('/api/statistics/', statisticsRoutes);
+app.use('/api/spend/', spendRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use('/api/admin/', adminRoutes);
