@@ -1,0 +1,74 @@
+const mongoose = require('mongoose');
+
+const fullSchema = new mongoose.Schema(
+  {
+    amountOfPeople: {
+      type: Number,
+      required: true,
+    },
+    children: {
+      type: Number,
+      required: true,
+    },
+    guide: {
+      type: Number,
+      required: true,
+    },
+    ticketPrice: {
+      type: Number,
+      required: true,
+    },
+    luggage: {
+      type: Number,
+      required: true,
+    },
+    transport: {
+      type: Number,
+      required: true,
+    },
+    visa: {
+      price: {
+        type: Number,
+        required: true,
+      },
+      total: {
+        type: Number,
+        required: true,
+      },
+    },
+    medicine: {
+      type: Number,
+      required: true,
+    },
+    makkahAndMadina: {
+      type: Number,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    sellingTicketPrice: {
+      type: Number,
+      required: true,
+    },
+    allMoneyTakenFromClient: {
+      type: Number,
+      required: true,
+    },
+    profit: {
+      type: Number,
+      required: true,
+    },
+    amoutOfClients: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Full = mongoose.model('Full', fullSchema);
+module.exports = Full;

@@ -8,6 +8,7 @@ const connectDB = require('../config/db');
 const tourRoutes = require('../routes/tourRoutes');
 const adminRoutes = require('../routes/adminRoutes');
 const spendRoutes = require('../routes/spendRoutes');
+const fullRoutes = require('../routes/fullRoutes');
 
 const statisticsRoutes = require('../routes/statisticsRoutes');
 const userRoutes = require('../routes/userRoutes');
