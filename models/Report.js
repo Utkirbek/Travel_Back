@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const fullSchema = new mongoose.Schema(
+const reportSchema = new mongoose.Schema(
   {
     amountOfPeople: {
       type: Number,
@@ -70,5 +70,5 @@ const fullSchema = new mongoose.Schema(
   }
 );
 
-const Full = mongoose.model('Full', fullSchema);
-module.exports = Full;
+const Report = mongoose.model('Report', reportSchema);
+module.exports = Report;
