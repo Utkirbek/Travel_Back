@@ -11,7 +11,6 @@ const {
 const Admin = require('../models/Admin');
 const Branch = require('../models/Branch');
 
-
 const registerAdmin = async (req, res) => {
   try {
     const isAdded = await Admin.findOne({ email: req.body.email });
@@ -30,8 +29,8 @@ const registerAdmin = async (req, res) => {
         phone: req.body.phone,
         password: bcrypt.hashSync(req.body.password),
       });
-      const branch =await  Branch.findById(req.body.branch);
-      
+      const branch = await Branch.findById(req.body.branch);
+
       const staff = await newStaff.save();
       const token = signInToken(staff);
       res.send({
@@ -61,7 +60,9 @@ const loginAdmin = async (req, res) => {
       bcrypt.compareSync(req.body.password, admin.password)
     ) {
       const token = signInToken(admin);
-      const branch = await  Branch.findById(admin.branch);
+      const branch = await Branch.findById(admin.branch);
+      const admins = await Admin.find({ branch: admin.branch });
+      branch.admins = admins;
       res.send({
         token,
         _id: admin._id,
@@ -116,13 +117,12 @@ const addStaff = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
-    const admins = await Admin.find({})
-      .sort({ _id: -1 });
+    const admins = await Admin.find({}).sort({ _id: -1 });
 
-      for (let i = 0; i < admins.length; i++) {
-        const branch = await Branch.findById(admins[i].branch);
-        admins[i].branch = branch;
-      }
+    for (let i = 0; i < admins.length; i++) {
+      const branch = await Branch.findById(admins[i].branch);
+      admins[i].branch = branch;
+    }
     res.send(admins);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -155,9 +155,7 @@ const updateStaff = async (req, res) => {
       admin.branch = req.body.branch;
       const updatedAdmin = await admin.save();
       const token = signInToken(updatedAdmin);
-      
-      
-      
+
       res.send({
         token,
         _id: updatedAdmin._id,
