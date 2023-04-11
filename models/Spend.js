@@ -6,6 +6,10 @@ const spendSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    leavingDate: {
+      type: String,
+      required: true,
+    },
     makkah: {
       room: {
         amount: {
