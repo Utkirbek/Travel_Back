@@ -12,6 +12,8 @@ const moneySchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    kassas: [],
+    profits: [],
 
     branch: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,11 +29,24 @@ const moneySchema = new mongoose.Schema(
 moneySchema.methods.addAmount = function (kassa, profit) {
   this.kassa = +this.kassa + +kassa;
   this.profit = +this.profit + +profit;
+  if (kassa.length > 0) {
+    const object = {
+      kassa: +this.kassa,
+      Date: new Date(),
+    };
+    this.kassas.push(object);
+  }
+  if (profit.length > 0) {
+    const object = {
+      kassa: +this.kassa,
+      Date: new Date(),
+    };
+    this.profits.push(object);
+  }
   this.save();
 };
 
 moneySchema.methods.minusAmount = function (kassa, profit) {
-
   this.kassa = +this.kassa - +kassa;
   this.profit = +this.profit - +profit;
 

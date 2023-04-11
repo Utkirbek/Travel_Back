@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-
+const cron = require('node-cron');
 const connectDB = require('../config/db');
 
 const tourRoutes = require('../routes/tourRoutes');
@@ -15,7 +15,7 @@ const userRoutes = require('../routes/userRoutes');
 
 const branchRoutes = require('../routes/branchRoutes');
 const moneyRoutes = require('../routes/moneyRoutes');
-
+const { addDailyMoney } = require('../controller/moneyController');
 const { isAuth, isAdmin } = require('../config/auth');
 
 connectDB();
@@ -57,3 +57,8 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+
+cron.schedule('0 0 0 * * *', () => {
+  addDailyMoney();
+  console.log('running a task every day at 1:00 AM');
+});
