@@ -23,8 +23,19 @@ const reportSchema = new mongoose.Schema(
       required: true,
     },
     luggage: {
-      type: Number,
-      required: true,
+      dollar: {
+        type: Number,
+        required: true,
+      },
+      number: {
+        type: Number,
+        required: true,
+        default: 100000,
+      },
+      amount: {
+        type: Number,
+        required: true,
+      },
     },
     transport: {
       type: Number,

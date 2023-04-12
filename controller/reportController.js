@@ -5,6 +5,9 @@ const addReport = async (req, res) => {
     const newReport = req.body;
     newReport.visa.total =
       +newReport.visa.price * +newReport.amountOfPeople;
+    newReport.luggage.amount =
+      (+newReport.luggage.number * +newReport.amountOfPeople) /
+      +newReport.luggage.dollar;
     const report = new Report(newReport);
     await report.save();
     res.send({ message: 'Report Added Successfully!' });
