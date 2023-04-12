@@ -2,8 +2,11 @@ const Report = require('../models/Report');
 
 const addReport = async (req, res) => {
   try {
-    const newReport = new Report(req.body);
-    await newReport.save();
+    const newReport = req.body;
+    newReport.visa.total =
+      newReport.visa.price * newReport.amoutOfPeople;
+    const report = new Report(newReport);
+    await report.save();
     res.send({ message: 'Report Added Successfully!' });
   } catch (err) {
     res.status(500).send({ message: err.message });
