@@ -22,7 +22,7 @@ const addReport = async (req, res) => {
       +newReport.sellingTicketPrice * +newReport.amountOfPeople;
 
     newReport.profit =
-      +newReport.total - +newReport.allMoneyTakenFromClient;
+      +newReport.allMoneyTakenFromClient - +newReport.total;
 
     const report = new Report(newReport);
     await report.save();
