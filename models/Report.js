@@ -6,6 +6,10 @@ const reportSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    leavingDate: {
+      type: String,
+      required: true,
+    },
     children: {
       type: Number,
       required: true,
