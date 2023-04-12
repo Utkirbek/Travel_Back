@@ -56,8 +56,19 @@ const reportSchema = new mongoose.Schema(
       required: true,
     },
     makkahAndMadina: {
-      type: Number,
-      required: true,
+      amount: {
+        type: Number,
+        required: true,
+      },
+      price: {
+        type: Number,
+        default: 3.75,
+        required: true,
+      },
+      total: {
+        type: Number,
+        required: true,
+      },
     },
     total: {
       type: Number,

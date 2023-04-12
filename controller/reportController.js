@@ -8,8 +8,25 @@ const addReport = async (req, res) => {
     newReport.luggage.amount =
       (+newReport.luggage.number * +newReport.amountOfPeople) /
       +newReport.luggage.dollar;
+    newReport.total =
+      +newReport.ticketPrice * +newReport.amountOfPeople +
+      +newReport.luggage.amount +
+      +newReport.transport +
+      +newReport.visa.total +
+      +newReport.medicine +
+      +newReport.makkahAndMadina;
+    newReport.allMoneyTakenFromClient =
+      +newReport.sellingTicketPrice * +newReport.amountOfPeople;
+
+    newReport.profit =
+      +newReport.total - +newReport.allMoneyTakenFromClient;
     const report = new Report(newReport);
-    await report.save();
+
+    newReport.makkahAndMadina.total =
+      +newReport.makkahAndMadina.amount /
+      +newReport.makkahAndMadina.price;
+
+    newReport.makkahAndMadina = await report.save();
     res.send({ message: 'Report Added Successfully!' });
   } catch (err) {
     res.status(500).send({ message: err.message });
