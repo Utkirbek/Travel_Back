@@ -29,17 +29,17 @@ const moneySchema = new mongoose.Schema(
 moneySchema.methods.addAmount = function (kassa, profit) {
   this.kassa = +this.kassa + +kassa;
   this.profit = +this.profit + +profit;
-  if (kassa.length > 0) {
+  if (kassa > 0) {
     const object = {
-      kassa: +this.kassa,
-      Date: new Date(),
+      amount: kassa,
+      date: new Date(),
     };
     this.kassas.push(object);
   }
-  if (profit.length > 0) {
+  if (profit > 0) {
     const object = {
-      kassa: +this.kassa,
-      Date: new Date(),
+      amount: profit,
+      date: new Date(),
     };
     this.profits.push(object);
   }
